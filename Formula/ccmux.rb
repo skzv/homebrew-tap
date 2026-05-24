@@ -5,7 +5,7 @@
 class Ccmux < Formula
   desc "One TUI for every AI coding session — Claude Code, Codex, Antigravity"
   homepage "https://github.com/skzv/ccmux"
-  version "0.1.3"
+  version "0.1.4"
   license "FSL-1.1-MIT"
 
   depends_on "mosh"
@@ -14,8 +14,8 @@ class Ccmux < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.3/ccmux_darwin_amd64.tar.gz"
-      sha256 "90f20d9e497a84c3221b520273f622b35f04c72c0f246e68d9fc26fa236ef134"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.4/ccmux_darwin_amd64.tar.gz"
+      sha256 "c5432d73593a07c42500176c6427619492388217f85df248faa6208271c30d14"
 
       define_method(:install) do
         bin.install "ccmux"
@@ -23,8 +23,8 @@ class Ccmux < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.3/ccmux_darwin_arm64.tar.gz"
-      sha256 "694bc6f8dbbec7a716ce910405f7be9aa7090cdfd2abf08a57d238c9fc4721d4"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.4/ccmux_darwin_arm64.tar.gz"
+      sha256 "beec8686efbbbefe28360d47b8b2268a95afa33f29e1aed43f3c062c87bb614c"
 
       define_method(:install) do
         bin.install "ccmux"
@@ -35,21 +35,34 @@ class Ccmux < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.3/ccmux_linux_amd64.tar.gz"
-      sha256 "239849ea0bfdcb4a994d99ce5df9416012b141705353106f40c7175e4616aaa9"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.4/ccmux_linux_amd64.tar.gz"
+      sha256 "bd5f417c045292ff785effe90cce4c7a3ba9125b750921dc74011315a1a8171b"
       define_method(:install) do
         bin.install "ccmux"
         bin.install "ccmuxd"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.3/ccmux_linux_arm64.tar.gz"
-      sha256 "b655ccbf1ae42d45a2ce2a023b8894f0c8e0d373b1baa4549d23a5b59104a2b7"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.4/ccmux_linux_arm64.tar.gz"
+      sha256 "c1e589a95bfcec0b3b455d2d1e4b7e412c23915a14340437ba44540f6d84f778"
       define_method(:install) do
         bin.install "ccmux"
         bin.install "ccmuxd"
       end
     end
+  end
+
+  def post_install
+    # `brew upgrade ccmux` replaces the binary on disk, but the
+    # ccmuxd process already running under launchd keeps its old
+    # text segment + route table. The user's mobile/web clients
+    # then hit new endpoints (added in this release) and see 404s
+    # silently. Restart so the upgrade actually takes effect.
+    # Soft-fail: if the daemon isn't registered with launchd yet
+    # (first-ever install before `ccmux setup`), `ccmux daemon
+    # restart` returns an error — that's fine, suppress it so
+    # brew doesn't surface a scary post_install failure.
+    system "#{bin}/ccmux", "daemon", "restart" rescue nil
   end
 
   def caveats
