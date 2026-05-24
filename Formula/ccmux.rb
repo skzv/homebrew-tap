@@ -5,7 +5,7 @@
 class Ccmux < Formula
   desc "One TUI for every AI coding session — Claude Code, Codex, Antigravity"
   homepage "https://github.com/skzv/ccmux"
-  version "0.1.5"
+  version "0.1.6"
   license "FSL-1.1-MIT"
 
   depends_on "mosh"
@@ -14,8 +14,8 @@ class Ccmux < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.5/ccmux_darwin_amd64.tar.gz"
-      sha256 "5ecc9aa03315548bc60801abe21c9c349fc241a4622b0c73d143107ed6c16a2e"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.6/ccmux_darwin_amd64.tar.gz"
+      sha256 "906aac17a8f81aa8544019ac3642d33fb9010868e905a59d6c4d76146b0c456b"
 
       define_method(:install) do
         bin.install "ccmux"
@@ -23,8 +23,8 @@ class Ccmux < Formula
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.5/ccmux_darwin_arm64.tar.gz"
-      sha256 "18db9b20362c285fca9a26de8826ca65f46742615e00b3216ab1ffe44dd713f2"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.6/ccmux_darwin_arm64.tar.gz"
+      sha256 "e371148b9ea26f2706a69d11f419b05705756fc3d8302af3e986e152b59f990c"
 
       define_method(:install) do
         bin.install "ccmux"
@@ -35,16 +35,16 @@ class Ccmux < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.5/ccmux_linux_amd64.tar.gz"
-      sha256 "54f3ef20eb4c1e1b15f0dce37cc36ed795a79db6211722df5119cad8ba2c6680"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.6/ccmux_linux_amd64.tar.gz"
+      sha256 "0e8a7aa35fcce9216cc5f76c4b8a9782b99f1e9339dc127c8b134eab1582cd34"
       define_method(:install) do
         bin.install "ccmux"
         bin.install "ccmuxd"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/skzv/ccmux/releases/download/v0.1.5/ccmux_linux_arm64.tar.gz"
-      sha256 "d547963a5fbe73aaf192dc8a543b181a60ddaf3963bed5b42430826e27997459"
+      url "https://github.com/skzv/ccmux/releases/download/v0.1.6/ccmux_linux_arm64.tar.gz"
+      sha256 "06dab760d2715be3f5383ff3602293ef0c4aa7dfd2c044784ae75ff4f6fc48fb"
       define_method(:install) do
         bin.install "ccmux"
         bin.install "ccmuxd"
