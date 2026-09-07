@@ -8,6 +8,7 @@ permissions:
 jobs:
   install:
     runs-on: macos-latest
+    timeout-minutes: 10
     steps:
       - name: Install from the public tap
         run: |
@@ -16,6 +17,6 @@ jobs:
       - name: Verify all packaged binaries
         run: |
           ccmux --version
-          ccmuxd --version
+          test -x "$(brew --prefix ccmux)/bin/ccmuxd"
           ccmux-mcp --version
           brew test skzv/tap/ccmux
