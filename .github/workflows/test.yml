@@ -1,0 +1,21 @@
+name: Formula smoke test
+on:
+  push:
+    paths: ['Formula/ccmux.rb', '.github/workflows/test.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  install:
+    runs-on: macos-latest
+    steps:
+      - name: Install from the public tap
+        run: |
+          brew trust --tap skzv/tap
+          brew install skzv/tap/ccmux
+      - name: Verify all packaged binaries
+        run: |
+          ccmux --version
+          ccmuxd --version
+          ccmux-mcp --version
+          brew test skzv/tap/ccmux
